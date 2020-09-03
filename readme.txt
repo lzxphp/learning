@@ -40,6 +40,18 @@
   git checkout –b dev origin/dev
 3.git push origin dev
 
+第四部分 删除远程git仓库文件
+由于在github上只能删除仓库,却无法删除文件夹或文件, 所以只能通过命令来解决
+
+1.git pull origin master                     # 将远程仓库里面的项目拉下来
+2.dir                                               # 查看有哪些文件夹
+3.git rm -r --cached file                   # 删除(多次)target文件夹
+4.git commit -m '删除了target'         # 提交,添加操作说明
+5.git push -u origin master               # 将本次更改更新到github项目上去
+注：本地项目中的target文件夹不收操作影响,删除的只是远程仓库中的target,
+
+
+
 github更换邮箱 
 直接更改github的ssh key.
 ssh-keygen -t rsa -C "newemail@xxx.com"

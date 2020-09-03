@@ -39,3 +39,7 @@
 2.其他的小伙伴要在dev分支上做开发，就必须把远程的origin的dev分支到本地来
   git checkout –b dev origin/dev
 3.git push origin dev
+
+github更换邮箱 
+直接更改github的ssh key.
+ssh-keygen -t rsa -C "newemail@xxx.com"

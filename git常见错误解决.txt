@@ -1,0 +1,5 @@
+1.出现改错误时，远程库与本地库两者不一致造成的，把远程库同步到本地库就可以了 
+! [rejected]        master -> master (fetch first)
+error: failed to push some refs to 'https://github.com/lzxphp/Vue-test.git'
+解决办法：git pull --rebase origin master
+解释：该命令的意思是把远程库中的更新合并到（pull=fetch+merge）本地库中，–-rebase的作用是取消掉本地库中刚刚的commit，并把他们接到更新后的版本库之中。之后可以成功执行git push origin master操作。

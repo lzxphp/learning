@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /*
+        * this概念：解析器在每次调用函数时，都会向函数传递一个隐含的this参数，它总是指向一个对象 
+        * 这个对象就是所谓的 this执行上下文对象，因此this是会根据不同环境动态变化~
+        * 
+        * this的情况：
+        * 1.以函数形式调用时，this永远都是指向window
+        * 2.以方法形式调用时，this时调用方法的对象
+        * 3.以构造函数的形式调用时，this是指向新创建的那个实例对象
+        * 4.使用call() 和 apply()调用时，this是指定的那个对象，（方法中的第一个参数对象）
+        * 
+        * 扩展：
+        * 封装实参的对象 arguments
+        * 解析器在每次调用函数时，都会向函数传递一个隐含的 arguments参数 (还有前面的提到的this上下文对象)
+        * - arguments是一个类数组 可以通过索引操作数据，获取长度
+        * - 不定义形参 也可以通过arguments来使用 只不过比较麻烦
+        * - arguments[0] 第一个实参
+        * - arguments[1] 第二个实参
+        * 
+        * 例子：
+        * fun () {
+        *   console.log( arguments[0]);
+        * }
+        * fun('66', 'aaa')
+        * 
+        */
+
+        
+        /*
+        * 原型prototype
+        *
+        * 1.创建每一个函数 解析器都会向函数中添加一个属性prototype
+        *  这个属性对应这一个对象 这个对象就是所谓的原型对象
+        * 2.如果函数作为普通函数调用没有任何作用 一般用于构造行函数中
+        * 当函数以构造函数调用时 它所创建的实例对象就都会有一个隐含的属性
+        *   指向构造函数的原型对象 可以通过__proto__来访问该属性（原型对象）
+        * 
+        * 3.原型对象相当于一个公共的区域 所有的同一个类的实例都可以访问到这个原型对象
+        *   所以可以将对象中共有的内容 统一添加到原型对象中
+        * 
+        */
+/*
+        // 通过new来创建一个构造函数（es5中创建类）
+        function Myclass() {
+
+        }
+
+        // 向Myclas的原型中添加属性a
+        Myclass.prototype.a = '我是原型对象中的a'
+
+        // 构造函数的实例
+        var gz0 = new Myclass() 
+        var gz1 = new Myclass() 
+
+        // 向实例对象gz0 添加属性a 
+        gz0.a = '我是gz0中的a'
+
+        // gz0中添加a, （原型链）
+        console.log(gz0.a); // 返回值：我是gz0中的a
+        // gz1中未添加a, （原型链）
+        console.log(gz1.a); // 返回值：我是原型对象中的a 
+
+        // 在gz0中未添加a, 此时gz0实例中并没有定义a属性 也可以访问 （原型链）
+        console.log(gz0.a); // 返回值：我是原型对象中的a 
+
+        // console.log(gz0.__proto__ == Myclass.prototype);
+        // console.log(gz1.__proto__ == Myclass.prototype);
+
+ */       
+        /*
+        * 原型链：（通过__proto__ 一层一层往上找...）
+        * 原型对象也是对象 所有它也有原型
+        * 当访问对象的一个属性和方法时，它会先在对象自身中寻找，如果有直接返回使用，
+        *   如果没有则会去原型对象中寻找，如果原型对象中有则使用 
+        *   如果没有则去原型的原型中寻找 直到找到Object对象的原型
+        *   Object对象的原型是没有原型 如果在Object中依然没有找到 则返回undefined 
+        * 
+        * 扩展：undefined 和 null区别
+        * undefined 表示没这个属性
+        * null 表示有这个属性 但是值为null 
+        */
+/*
+        function Myclass2() {
+        
+        }
+        // 原型添加sayHello方法
+        Myclass2.prototype.name = '我是原型对象中的名字'
+
+        // 构造函数的实例
+        var gz = new Myclass2() 
+        gz.age = 18
+
+        // gz实例对象并没有添加name 可以访问使用
+        // console.log(gz.hasOwnProperty('name')); // false
+        // console.log(gz.name); // '我是原型对象中的名字'
+
+        console.log(gz.hasOwnProperty('age')); // true
+
+
+        // console.log(gz.sayHello()); // 调用
+        console.log(gz.__proto__); // 函数对象
+        // hasOwnProperty 检查对象自身中是否含有某个属性 含有返回值true
+        // gz实例对象中并没有hasOwnProperty 但可以使用，因为原型链寻找后，原型的原型中含有此方法
+        console.log(gz.hasOwnProperty('hasOwnProperty')); // false
+        console.log(gz.__proto__.hasOwnProperty('sayHello')); // false
+        console.log(gz.__proto__.__proto__.hasOwnProperty('hasOwnProperty')); // true
+        console.log(gz.__proto__.__proto__.__proto__); // null 
+
+*/
+       
+
+
+        /*
+        * call() 和 apply()
+        * - 这两个都是函数对象的方法，需要通过函数对象调用
+        * - 当函数调用call() 和 apply() 都会执行该函数
+        * - 当调用这两个方法时，可以将一个对象指定为第一个参数
+        *   此时这个对象 就会成为函数执行时的this
+        * - call()方法可以将实参在对象参数之后一次传递 
+        * - apply() 需要将实参封装到数组中统一传递
+        */
+        
+        function test(a, b) {
+            // console.log('我是test函数')
+            // console.log(this);
+            // console.log(this.name);
+            console.log(a,b);
+        }
+
+        var obj = {
+            name: 'xxx',
+            sayName: function (){
+                console.log(this.name);
+            }
+        }
+        var obj2 = {
+            name: 'yyy'
+        }
+
+
+        // test()
+        // test.call()
+        // test.apply()
+
+        // test() // window
+        // test.call(obj)
+        // test.apply(obj2)
+
+        obj.sayName() // ：obj中的 xxx
+        obj.sayName.apply(obj2) // ：obj2中的 yyy 是由于apply() 改变this指向 
+
+        // 两种方法的参数区别 
+        test.call(obj, 2, 3)
+        test.apply(obj2, [2, 3])
+
+
+
+    </script>
+</body>
+</html>

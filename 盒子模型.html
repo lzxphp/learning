@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style>
+			body{
+				color: #ccc;
+			}
+			.box1{
+				width: 200px;
+				height: 200px;
+				padding: 20px;
+				background: red;
+				border: 5px solid blue;
+				
+			}
+			.box2{
+				width: 200px;
+				height: 200px;
+				padding: 20px;
+				background: green;
+				border: 5px solid black;
+				box-sizing: border-box; /*设置怪IE盒*/
+			}
+		</style>
+	</head>
+	<body>
+		<p>实际：width：200 height：200</p>
+		<p>设置内边距:20 边框:5后表现：width：225 height：225</p>
+		<p>标准盒大小：content（不包含了内边距和边框）</p>
+		<div class="box1">
+		</div>
+		<hr>
+		<p>实际：width：200 height：200</p>
+		<p>设置内边距:20 边框:5后表现：width：200 height：200/p>
+		<p>ie盒（怪异）大小： content+padding+border</p>
+		<div class="box2">
+		</div>
+		
+		<script>
+			var test1 = 123;
+			var test2 = test1
+			var test2 = 456
+			console.log(test1);
+			console.log(test2);
+			
+			
+			
+			// 浅拷贝 for in方式
+			// function clone(target) {
+			// 	let cloneTagert = {}
+			// 	for(var key in target) {
+			// 		console.log(key);
+			// 		console.log(target[key]);
+			// 		cloneTagert[key] = target[key]
+			// 	}
+			// 	return cloneTagert
+			// }
+			
+			// 深拷贝 循环递归
+			function clone2(target) {
+			    if (typeof target === 'object') {
+					// 内部为对象情况
+					// let cloneTagert = {}
+					// 考虑内部存在数组情况
+			        let cloneTarget =  Array.isArray(target)? [] : {};
+			        for (var key in target) {
+						console.log(key);
+						console.log(target[key]);
+			            cloneTarget[key] = clone2(target[key]);
+			        }
+			        return cloneTarget;
+			    } else {
+			        return target;
+			    }
+			};
+			
+			var target = {
+			    field1: 1,
+			    field2: undefined,
+			    field3: 'ConardLi',
+			    // field4: {
+			    //     child: 'child',
+			    //     child2: {
+			    //         child2: 'child2'
+			    //     }
+			    // },
+				field4: [2, 4, 8]
+			};
+			// console.log(clone(target));
+			console.log(clone2(target));
+			target.field1 = 6666666
+			console.log(target);
+			
+			// 比较循环运行时间
+			const array = []
+			for (let i = 0; i<1000; i++) {
+				let element = Math.floor(Math.random()*1000)
+				array.push(element)
+			}
+			console.log(array);
+			console.time('while运行时间');
+			const length = array.length;
+			let i = 0;
+			let sum = 0;
+			while(i<length){
+				sum += array[i];
+				i++;
+			}
+			console.timeEnd('while运行时间');
+			
+			console.time('for运行时间');
+			for (let i = 0; i<array.length;i++) {
+				sum + array[i];
+			}
+			console.timeEnd('for运行时间');
+			
+			console.time('for in运行时间');
+			for(let key in array){
+				sum += array[key];
+			}
+			console.timeEnd('for in运行时间');
+			
+			console.time('forEach运行时间');
+			array.forEach(function(currentValue, index, arr){
+				sum += currentValue
+			})
+			console.timeEnd('forEach运行时间');
+			
+			// while运行时间: 1.7041015625 ms
+			// for运行时间: 1.322998046875 ms
+			// for in运行时间: 11.4150390625 ms
+			// forEach运行时间: 2.026123046875 ms
+			
+			
+			// let a = 100;
+			// let b = a;
+			// a = 200;
+			// console.log(b); // 100
+			// console.log(a); // 200
+			
+			// let c = { age: 20 };
+			// let d = c;
+			// c.age = 30;
+			// console.log(d.age); // 30
+			
+			function Person(name, age){ 
+				console.log(this);
+			    this.name = name;
+				this.age = age;
+			}
+			Person.prototype.motherland = 'China'
+			Person.prototype.hairColor = 'black'
+			Person.prototype.eat = function() {
+				console.log('we usually eat three meanls a day');
+			}
+ 			let person01 = new Person('小明', 18);
+			let person02 = new Person('小王', 18);
+			person01.__proto__.hairColor = 'yellow'
+			console.log(person01);
+			console.log(person02);
+			// console.log(person01.__proto__ == Person.prototype);
+			// console.log(Person.prototype.constructor == Person);
+			// console.log(Person.prototype);
+			// console.log(Person.prototype.constructor);
+			// console.log(Person.prototype.__proto__);		
+				
+				
+				
+				
+				
+				
+				
+				
+				
+		</script>
+	</body>
+</html>

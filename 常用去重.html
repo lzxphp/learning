@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+
+        		let aaa = [
+                        {
+                            "title": "香港二手楼价跌跌不休，有业主赔本20％也要卖房",
+                            "id": "243",
+                            "picurl": "http://qingnian8.oss-cn-qingdao.aliyuncs.com/images/20220916/1663312343.jpg",
+                            "looktime": "2023-02-25 15:06:15"
+                        },
+                        {
+                            "title": "sss跌跌不休，有业主赔本20％也要卖房",
+                            "id": "256",
+                            "picurl": "http://qingnian8.oss-cn-qingdao.aliyuncs.com/images/20220916/1663312343.jpg",
+                            "looktime": "2023-02-25 15:05:56"
+                        },
+                        {
+                            "title": "香港二手楼价跌跌不休，有业主赔本20％也要卖房",
+                            "id": "243",
+                            "picurl": "http://qingnian8.oss-cn-qingdao.aliyuncs.com/images/20220916/1663312343.jpg",
+                            "looktime": "2023-02-25 15:03:57"
+                        }
+                ]
+
+                // 方法一、map去重
+				// let map = new Map()
+				// let newData = []
+				// for (let i = 0; i < historyData.length; i++) {
+				// 	if(map.has(historyData[i].id)){
+				// 		map.set(historyData[i].id, true)
+				// 	}else{
+				// 		map.set(historyData[i].id, false)
+				// 		newData.push(historyData[i])
+				// 	}
+				// }
+
+                // 方法二、双for循环
+                var result = [];
+                for (var i = 0; i < aaa.length; i++) {
+                    var flag = true;
+                    for (var j = 0; j < result.length; j++) {
+                        if (aaa[i].id === result[j].id) {
+                        flag = false;
+                        }
+                    }
+                    if (flag) {
+                        result.push(aaa[i]);
+                    }   
+                }
+                
+                console.log(result);
+                
+                // 方法三、双for循环
+                // let newData = []
+				// for (let i = 0; i < aaa.length; i++) {
+				// 	if(newData[i].indexOf(aaa[i].id) == -1){
+				// 		newData.push(aaa[i])
+				// 	}
+				// 	// else{
+				// 	// 	newData.splice(i, 1)
+				// 	// }
+				// }
+
+                // 方法四、 for + indexOf 
+                var glob = [1,2,11,12,3,2,9,2,3,1,0,0]
+                var res = []
+                function repeat() {
+                    for(var i = 0; i<glob.length; i++) {
+                        if(res.indexOf(glob[i]) == -1 ){
+                            res.push(glob[i])
+                        }
+                    }
+                }
+                repeat()
+
+
+                // 方法五、 Set + Array.from 方法
+                // var glob2 = [1,2,11,12,3,2,9,2,3,1,0,0]
+                // var data = new Set(glob2) // 类数组
+                // var res2 = Array.from(data) // 转化成真数组
+                // console.log(res2);
+
+                // debugger
+				// console.log(newData);
+    </script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        var arr0 = [1, [2, [3, 4, 5]]];
+
+        function flatten (arr0){
+            return arr0.flat(Infinity);
+
+        }
+        // 浏览器无法解析ES6语法
+        console.log(flatten(arr0));
+
+        const arr = [1,[2,3],[4,[5,[6]],7]];
+ 
+
+
+        function test1(arr) {
+            let result = []
+            for (let i = 0; i < arr.length; i++) {
+                if(Array.isArray(arr[i])){
+                    result = result.concat(test1(arr[i]))
+                }else{
+                    result = result.concat(arr[i])
+                }
+                
+            }
+            return result;
+        }
+        console.log(test1(arr));//[1,2,3,4,5,6,7]
+
+        
+        function flatten2(arr) {
+            let result = [];
+            for (let i = 0; i < arr.length; i++) {
+            if (Array.isArray(arr[i])) {
+                result = result.concat(flatten2(arr[i]));
+            } else {
+                result = result.concat(arr[i])
+            }
+            }
+            return result
+        }
+        console.log(flatten2(arr));//[1,2,3,4,5,6,7]
+    </script>
+</body>
+</html>

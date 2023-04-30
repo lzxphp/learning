@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /*-------函数参数类型------*/
+
+        var obj= {
+            name: 'lzx',
+            address: 'nanjing',
+            age: 25
+        }
+
+        function sayHello(v) {
+            console.log(v.name + '-' + v.age +  '-' +v.address);
+            return v.age;
+        }
+
+        // sayHello(obj)
+
+        // 函数作为参数
+        function fun(says) {
+            /* 不加括号 函数作为参数理解 
+            console.log(says); // 结果如下：
+            function sayHello(v) {
+                console.log(v.name + '-' + v.age +  '-' +v.address);
+                return v.age;
+            }
+            // 可以发现就是前面定义完整的sayHello函数
+            可以理解成：此时的函数 says形参  是相等于 之前定义好的sayHello函数 
+            says = sayHello()函数
+            重新赋值给另外一个变量，然后加上() 作为调用函数执行*/
+            says(obj) // 接受函数对象 回调函数
+
+            // return says(obj) // 将回调函数 作为返回值
+        }
+
+        // 不加括号 相当于直接使用函数对象
+        fun(sayHello) 
+
+        // 加括号 则调用该函数获取返回值，作为fun函数实参使用
+        // fun(sayHello(obj))
+
+
+        /*-------函数嵌套 返回值-----*/
+        function fun3() {
+            function fun4 () {
+                console.log('我是fun4函数');
+            }
+            // 将fun4函数对象（函数结构体）作为返回值返回
+            return fun4;
+        }
+        fun3()
+        console.log(fun3()); // 获取到的是 fun4的函数体
+
+        a = fun3()
+        console.log(a); // 获取到的是 fun4的函数体
+
+        // a()  // 函数体加() 意味着调用fun4函数执行
+        // fun3()()
+        // a() == fun3()()
+
+        /*-------立刻执行函数-----*/
+
+        (function() {
+            console.log('立刻执行函数：');
+        })()
+
+        /*
+        * 作用域
+
+        * 全局作用域：页面打开生效 关闭则销毁
+        * 创建的全局变量（或者函数） 都会作为 window对象的属性保存
+        * 
+        */
+        
+        var addValue = '66666';
+        console.log(addValue); // 默认可省略window
+        console.log(window.addValue);
+        console.log(window);
+        
+        
+
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+
+    /*----递归---------*/
+    // function digui(v) {
+    //     if(v == 1){
+    //         return
+    //     }
+    //     v--
+    //     digui(v)
+    //     console.log(v);
+    // }
+    // digui(6)
+
+
+    // var arrList = [1,2,3,4,5]
+    // //for循环测试
+    // function forTest(){
+    //     console.time("for循环")
+    //     for(let i in arrList){
+    //         console.log(((arrList[i] + arrList[i]) * 5 - arrList[i])/arrList[i])
+    //     }
+    //     console.timeEnd("for循环")
+    // }
+    // //递归遍历测试
+    // function recursive() {
+    //     console.time("递归遍历")
+    //     const testFun = function (i) {
+    //         console.log(((arrList[i] + arrList[i]) * 5 - arrList[i])/arrList[i])
+    //         if(i == arrList.length - 1){
+    //             return
+    //         }
+    //         i++
+    //         testFun(i)
+    //     }
+    //     testFun(0)
+    //     console.timeEnd("递归遍历")
+    // }
+    // forTest()
+    // recursive()
+
+    // 小栗子：递归实现：求n个数字的和 n=5 ------->5+4+3+2+1
+    //for 循环写法：
+    // var sum=0;
+    // for (var i=0;i<=5;i++){
+    //     sum+=i;
+    // }
+    // console.log(sum);
+
+    // 递归写法
+    // function getSum(x) {
+    //     if (x==1){
+    //       return 1
+    //     }
+
+    //     console.log(x);
+    //     console.log(getSum(x-1));
+    //     console.log('----');
+
+    //     return x+getSum(x-1);
+    // };
+
+    // var sum1=getSum(5);
+    // console.log(sum1);
+    // console.log(getSum(10));
+
+    /*----深拷贝---------*/
+    /*----深拷贝 json方式---------*/
+    JSON.parse(JSON.stringify())
+
+    /*----深拷贝 循环递归方式---------*/
+
+    /*
+    var aa = {
+        a: 1,
+        b: 2,
+        c: 3,
+        g: {
+            qq: 5,
+            k: {
+                vv: 6665,
+            }
+        }
+    }
+    function clone(o) {
+        var temp = {}
+        for (var key in o) {
+            // console.log('---');
+            // console.log(o,key);
+            // console.log(o[key]);
+            // console.log(typeof o[key]);
+            if (typeof o[key] == 'object') {
+            temp[key] = clone(o[key])
+            } else {
+            temp[key] = o[key]
+            }
+        }
+        return temp
+    }
+    // clone(aa)
+    console.log(clone(aa));
+    // 修改 原数组没影响
+    // var bb = clone(aa)
+    // bb.d = 4
+    // console.log(clone(bb));
+    */
+
+    /*----浅拷贝---------*/
+    // Object.assign(target, ...sources)
+    // 参数： target--->目标对象
+    //     source--->源对象
+    //     返回值：target，即目标对象
+    var target={name:'guxin',age:25};
+    var source={state:'single'}
+    var result=Object.assign(target,source);
+    console.log(target,target==result);
+    </script>
+</body>
+</html>

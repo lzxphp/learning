@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="div1"></div>
+    <div>防抖点击测试：<button id="add">提交</button></div>
+
+    <div>防抖输入测试：<input type="text" id="debounce" value=""></div></div>
+    <div style="height: 1500px;">
+        <h5>节流:滚动高度测试</h5>
+        <div>
+            节流搜索测试：<input type="text" id="debounce" value="">
+            <button id="submit">搜索</button>
+        </div>
+    </div>
+    
+
+
+<script>
+/*-----------------防抖节流-----------------*/
+// 防抖节流
+/*防抖*/
+// debounce.js
+let addBtn=document.getElementById('add')      
+
+function addOne(){
+    console.log(this); // 默认指向windoss对象
+  console.log('增加一个')
+}
+     
+// 第一次写法思路[无效]：添加匿名函数作为闭包 和 定时器来
+// 问题：多次点击达到了2s内是执行一次 但每次会新增一个新的setTimeout，还是重复点击的次数
+// function debounce(fun,time){
+//     // 定义一个匿名函数作为闭包
+//     return function(){
+//         // 添加定时器 设置操作时间
+//         setTimeout(() => {
+//                 // 调用处理的功能函数
+//                fun()
+//         }, time);
+//     }
+// }
+
+// 第二次写法[无效]：添加清除定时器了，自己想的写法
+// function debounce(fun,time){
+    // // 定义一个匿名函数作为闭包
+    // clearTimeout(bibao)
+    // let bibao = function(){
+    //     // 添加定时器 设置操作时间
+    //     setTimeout(() => {
+    //             // 调用处理的功能函数
+    //            fun()
+    //     }, time);
+    // }
+// }
+
+// 第三次写法：添加清除定时器 同时改变this的指向
+function debounce(fun,time){
+    // 创建一个标记用来存放定时器的返回值 接收定时器变量
+    let timer;
+    // 定义一个匿名函数作为闭包
+    return function(arguments){
+        // 每次输入执行时 先把前一个定时器清除
+        clearTimeout(timer)
+
+        // 定时器内部获取 默认arguments的this指向就在定时器了
+        let args = arguments
+        // 创建一个定时器变量 
+        // 指定时间执行处理函数 间隔内如果还有字符输入的话，就不会执行 fn 函数
+        timer = setTimeout(()=>{
+            // 改变执行方法this指向 绑定到内部使用
+            // arguments是传入的参数
+            // fun()
+            fun.apply(this, args)
+        },time)
+    }
+}
+// 案例1：按钮频繁操作
+addBtn.addEventListener('click',debounce(addOne,2000))
+
+
+// 案例2：输入搜索测试
+
+//模拟一段ajax请求/接口
+function ajax(content) {
+    // console.log(this);
+  console.log('ajax request ' + content)
+}
+
+// 获取输入框节点
+let inputb = document.getElementById('debounce')
+
+// let debounceAjax = debounce(ajax, 500)
+
+// 监听输入框节点
+    
+inputb.addEventListener('input', function (e) {
+    // console.log(e);
+    // debounceAjax(e.target.value)
+    debounce(ajax(e.target.value), 2000)
+})
+
+/*------------节流----------*/
+// throttle.js
+function scrollTest(){
+  console.log('现在我触发了')
+}   
+// document.addEventListener('scroll',scrollTest)
+
+function throttle(fun,time){
+  var t1 = 0 //初始时间 
+  return function(){
+    var t2 = new Date() //当前时间 17:42
+    var js = t2-t1
+    console.log('前后操作时间差：'+js);
+    console.log('规定间隔时间：'+ time);
+    // 第一次的t2-t1值：1666345797083
+    if(t2-t1 > time){
+      fun.apply(this,arguments)
+      t1 = t2
+    }else{
+        var tm = t2-t1 ;
+        console.log('请勿频繁操作,请在'+tm+'毫秒之后搜索')
+    }
+  }
+}
+
+// 写法二：[有bug]
+// 首次不会执行
+// function throttle2(fn,time) {
+//     let canRun = true; // 通过闭包保存一个标记
+//     return function () {
+//     if (!canRun) return; // 在函数开头判断标记是否为true，不为true则return
+//     canRun = false; // 立即设置为false
+//     setTimeout(() => { // 将外部传入的函数的执行放在setTimeout中
+//         fn.apply(this, arguments);
+//         // 最后在setTimeout执行完毕后再把标记设置为true(关键)表示可以执行下一次循环了。当定时器没有执行的时候标记永远是false，在开头被return掉
+//         canRun = true;
+//     }, time);
+//     };
+// }
+
+// document.addEventListener('scroll',throttle(scrollTest,3000))
+// window.addEventListener('resize', throttle(sayHi, 5000));
+
+
+// 案例：限制搜索间隔 防止频繁触发搜索请求
+
+//模拟一段ajax请求/接口
+// function ajax() {
+//   console.log('success! 触发正常请求，第二次则需要在设定的时间之后再次执行')
+// }
+
+// let submit = document.getElementById('submit')
+
+// submit.addEventListener('click',throttle2(ajax,6000))
+
+
+
+
+/*-----------------防抖节流end-----------------*/
+
+
+/* -----------*/
+
+// 立刻执行函数
+// (function () {})()
+
+// 对于window参数进行操作
+/* (function (win) {
+    // console.log(win);
+})(window)
+
+var obj = { hello: 'world' };
+var blob = new Blob([ JSON.stringify(obj) ], {type : 'application/json'});
+console.log(blob);
+
+        var div1 = document.getElementById('div1');
+    var div = document.createElement('div');
+     div1.appendChild(div); // 有返回值，为已插入的p节点
+
+
+
+    function f1(callback) { // 此函数是异步操作
+        setTimeout(() => {
+            console.log('执行1');
+        }, 100);
+
+        callback();
+    }
+
+    function f2() { // 期望是等f1执行完再执行f2，但是f1是异步操作，会先执行f2
+        console.log('执行2');
+    }
+
+    f1(f2);
+    // f2();             */
+    </script>
+</body>
+</html>
